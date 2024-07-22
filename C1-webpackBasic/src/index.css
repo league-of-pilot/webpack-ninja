@@ -1,8 +1,9 @@
-#header {
+.header {
   text-decoration: underline;
   color: blue;
+  font-family: 'Redressed', cursive;
 }
 
-:global(.button){
+.button{
   background: yellow;
 }
