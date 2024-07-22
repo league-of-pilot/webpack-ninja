@@ -5,9 +5,10 @@ import validate from "validate.js";
 import toastr from "toastr";
 // import banner from './assets/banner-image.png';
 // import showModal from "./components/modal";
-import {showDate} from './libs/showDate';
+import { showDate, dummyFunction } from "./libs/showDate";
 
 showDate();
+dummyFunction();
 
 import "./index.css";
 import "./_vendor.scss";
