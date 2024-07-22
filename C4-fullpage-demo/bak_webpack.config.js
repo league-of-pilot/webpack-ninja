@@ -1,6 +1,15 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
+const PurgeCss = require("purgecss-webpack-plugin");
+const glob = require("glob");
+
+const purgePath = {
+  src: path.join(__dirname, "src"),
+};
 
 module.exports = {
   entry: {
@@ -8,7 +17,7 @@ module.exports = {
     courses: "./src/pages/courses.js",
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
@@ -19,11 +28,11 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.s[ac]ss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpeg|jpg|gif)$/,
@@ -32,6 +41,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      mnt: "moment",
+      $: "jquery",
+    }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       chunks: ["index"],
@@ -41,7 +54,7 @@ module.exports = {
       template: "./src/pages/courses.html",
       chunks: ["courses"],
       filename: "courses.html",
-      base: "pages"
+      base: "pages",
     }),
     new CopyPlugin({
       patterns: [
@@ -49,8 +62,19 @@ module.exports = {
           from: path.resolve(__dirname, "src/assets/images/*").replace(/\\/g, "/"),
           to: path.resolve(__dirname, "dist").replace(/\\/g, "/"),
           context: "src",
-        }
+        },
       ],
     }),
+    new PurgeCss({
+      paths: glob.sync(`${purgePath.src}/**/*`, { nodir: true }),
+      safelist: ["dummy-css"],
+    }),
+    // new BundleAnalyzerPlugin({}),
+    new MiniCssExtractPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
 };
