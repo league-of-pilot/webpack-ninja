@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
   entry: {
@@ -41,7 +42,7 @@ module.exports = {
       template: "./src/pages/courses.html",
       chunks: ["courses"],
       filename: "courses.html",
-      base: "pages"
+      base: "pages",
     }),
     new CopyPlugin({
       patterns: [
@@ -49,8 +50,11 @@ module.exports = {
           from: path.resolve(__dirname, "src/assets/images/*").replace(/\\/g, "/"),
           to: path.resolve(__dirname, "dist").replace(/\\/g, "/"),
           context: "src",
-        }
+        },
       ],
     }),
+    new BundleAnalyzerPlugin({
+
+    })
   ],
 };
