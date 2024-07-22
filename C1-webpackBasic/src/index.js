@@ -1,10 +1,10 @@
 import _ from "lodash";
 import style from "./index.css";
 import "./clearButton";
-
-console.log(style);
+import logo from "./assets/webpack_logo.png";
 
 const btn1 = document.getElementById("button1");
+const logoEl = document.getElementById("logo");
 
 btn1.addEventListener("click", function () {
 	const el = document.getElementById("header");
@@ -20,3 +20,4 @@ btn1.addEventListener("click", function () {
 });
 
 btn1.classList.add(["button"]);
+logoEl.src = logo;
