@@ -10,6 +10,9 @@ module.exports = {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
+  devServer: {
+    static: "./dist",
+  },
   plugins: [
     new htmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html"),
