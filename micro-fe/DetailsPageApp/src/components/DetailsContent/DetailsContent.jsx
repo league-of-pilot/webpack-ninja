@@ -17,6 +17,8 @@ const DetailsContent = (props) => {
       return movie.id === parseInt(id);
     });
 
+    console.log(selectedMovie);
+
     setMovie(selectedMovie[0]);
   }, []);
 

@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import QuickBooking from "../QuickBooking/QuickBooking.jsx";
 const MovieCard = React.lazy(() => import("components/MovieCard"));
+import RoutingContext from "../../utils/RoutingProvider";
 import "./HomeContent.scss";
 
 const dummyItem = [{ name: "Dummy Movie" }];
@@ -20,6 +21,7 @@ const HomeContent = (props) => {
     if (typeof props.movieClicked === "function") {
       props.movieClicked(item);
     }
+    console.log(item);
   };
 
   const renderMovieList = () => {
@@ -36,10 +38,12 @@ const HomeContent = (props) => {
 
   return (
     <div className="home-content-container">
-      <QuickBooking></QuickBooking>
-      <div className="movies-container">
-        <Suspense fallback={null}>{renderMovieList()}</Suspense>
-      </div>
+      <RoutingContext.Provider value={props.routing}>
+        <QuickBooking></QuickBooking>
+        <div className="movies-container">
+          <Suspense fallback={null}>{renderMovieList()}</Suspense>
+        </div>
+      </RoutingContext.Provider>
     </div>
   );
 };
