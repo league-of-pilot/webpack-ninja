@@ -19,7 +19,7 @@ const App = () => {
     <Switch>
       <Route path="/details/:id">
         <Suspense fallback={null}>
-          <DetailsPage location={location}></DetailsPage>
+          <DetailsPage routing={{ history, location }} location={location}></DetailsPage>
         </Suspense>
       </Route>
       <Route path="/book">
